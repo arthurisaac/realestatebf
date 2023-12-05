@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/color.dart';
+import '../../theme/color.dart';
 
 class CompanyItem extends StatelessWidget {
   const CompanyItem({

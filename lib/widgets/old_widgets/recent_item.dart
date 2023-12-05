@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../theme/color.dart';
-import 'custom_image.dart';
+import '../../theme/color.dart';
+import '../custom_image.dart';
 
-class RecommendItem extends StatelessWidget {
-  const RecommendItem({Key? key, required this.data}) : super(key: key);
+class RecentItem extends StatelessWidget {
+  const RecentItem({Key? key, required this.data}) : super(key: key);
   final data;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 220,
-      height: 130,
+      width: 280,
       margin: EdgeInsets.only(right: 15),
       decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -24,39 +24,19 @@ class RecommendItem extends StatelessWidget {
           ),
         ],
       ),
-      child: Stack(
+      child: Row(
         children: [
           CustomImage(
             data["image"],
             radius: 20,
-            width: double.infinity,
-            height: double.infinity,
           ),
-          _buildOverlay(),
-          Positioned(
-            bottom: 12,
-            left: 10,
+          const SizedBox(
+            width: 15,
+          ),
+          Expanded(
             child: _buildInfo(),
-          ),
+          )
         ],
-      ),
-    );
-  }
-
-  Widget _buildOverlay() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [
-            Colors.black.withOpacity(.8),
-            Colors.white.withOpacity(.01),
-          ],
-        ),
       ),
     );
   }
@@ -69,34 +49,44 @@ class RecommendItem extends StatelessWidget {
           data["name"],
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         const SizedBox(
           height: 5,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
               Icons.place_outlined,
-              color: Colors.white,
               size: 13,
             ),
             const SizedBox(
               width: 3,
             ),
-            Text(
-              data["location"],
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.white,
+            Expanded(
+              child: Text(
+                data["location"],
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 12,
+                ),
               ),
             ),
           ],
         ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          data["price"],
+          style: TextStyle(
+            fontSize: 13,
+            color: AppColor.primary,
+            fontWeight: FontWeight.w500,
+          ),
+        )
       ],
     );
   }

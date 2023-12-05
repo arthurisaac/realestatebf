@@ -1,62 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:realestatebf/models/property.dart';
+import 'package:realestatebf/utils/constants.dart';
+import 'old_widgets/icon_box.dart';
+import 'dart:math' as math;
 
-import '../theme/color.dart';
-import 'custom_image.dart';
-import 'icon_box.dart';
-
-class PropertyItem extends StatelessWidget {
-  const PropertyItem({Key? key, required this.data}) : super(key: key);
-
-  final data;
+class PropertyItem extends StatefulWidget {
+  final Property property;
+  final Function() onTap;
+  const PropertyItem({Key? key, required this.property, required this.onTap}) : super(key: key);
 
   @override
+  State<PropertyItem> createState() => _PropertyItemState();
+}
+
+class _PropertyItemState extends State<PropertyItem> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 240,
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: AppColor.shadowColor.withOpacity(0.1),
-            spreadRadius: .5,
-            blurRadius: 1,
-            offset: Offset(0, 1), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          CustomImage(
-            data["image"],
-            width: double.infinity,
-            height: 150,
-            radius: 25,
-          ),
-          Positioned(
-            right: 20,
-            top: 130,
-            child: _buildFavorite(),
-          ),
-          Positioned(
-            left: 15,
-            top: 160,
-            child: _buildInfo(),
-          ),
-        ],
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        width: double.infinity,
+        height: 260,
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                image: DecorationImage(
+                  image: NetworkImage('$mediaUrl${widget.property.imagePrincipale}'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 20,
+              top: 15,
+              child: _buildFavorite(),
+            ),
+            Positioned(
+              right: 20,
+              top: 130,
+              child: _buildNavigation(),
+            ),
+            Positioned(
+              left: 15,
+              top: 160,
+              child: _buildInfo(),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildFavorite() {
+    return const Icon(
+      Icons.bookmark_border_rounded,
+      color: Colors.white,
+      size: 28,
+    );
+  }
+
+  Widget _buildNavigation() {
     return IconBox(
-      bgColor: AppColor.red,
-      child: Icon(
-        data["is_favorited"] ? Icons.favorite : Icons.favorite_border,
-        color: Colors.white,
-        size: 20,
+      bgColor: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(1.0),
+        child: Transform.rotate(
+          angle: 20 * math.pi / 180,
+          child: Icon(
+            Icons.navigation_sharp,
+            color: Theme.of(context).primaryColor,
+            size: 23,
+          ),
+        ),
       ),
     );
   }
@@ -65,42 +89,32 @@ class PropertyItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          data["name"],
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Row(
-          children: [
-            Icon(
-              Icons.place_outlined,
-              color: AppColor.darker,
-              size: 13,
-            ),
-            const SizedBox(
-              width: 3,
-            ),
-            Text(
-              data["location"],
-              style: TextStyle(fontSize: 13, color: AppColor.darker),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          data["price"],
-          style: TextStyle(
-            fontSize: 15,
-            color: AppColor.primary,
-            fontWeight: FontWeight.w500,
+        Text("${widget.property.nom}", style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),),
+        Text("${widget.property.quartier}, ${widget.property.ville}", style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.black45),),
+        Text("${widget.property.prix}$priceSymbole (${widget.property.typePrix})", style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Theme.of(context).primaryColorDark),),
+        const SizedBox(height: 10,),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              indicator(image: "assets/images/bed.png", text: "${widget.property.nombreChambre} lit"),
+              indicator(image: "assets/images/bath.png", text: "${widget.property.nombreBain} bain"),
+              indicator(image: "assets/images/car.png", text: "${widget.property.nombreParking} garage"),
+            ],
           ),
         ),
+        SizedBox(height: 10,),
+      ],
+    );
+  }
+
+  Widget indicator({required String image, required String text,}) {
+    return Row(
+      children: [
+        Image.asset(image, height: 30,),
+        const SizedBox(width: 5,),
+        Text(text, style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.black45),),
+        SizedBox(width: 10,),
       ],
     );
   }

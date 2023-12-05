@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realestatebf/screens/explore_screen.dart';
-import 'package:realestatebf/screens/home/home_screen.dart';
+import 'package:realestatebf/screens/historiques_reservations_screen.dart';
+import 'package:realestatebf/screens/home_screen.dart';
 
 import '../theme/color.dart';
 import '../widgets/bottombar_item.dart';
@@ -18,21 +19,16 @@ class _RootAppState extends State<RootApp> {
     {
       "icon": Icons.home_outlined,
       "active_icon": Icons.home_rounded,
-      "page": HomeScreen(),
+      "page": const HomeScreen(),
     },
     {
-      "icon": Icons.search_outlined,
-      "active_icon": Icons.search,
-      "page": ExploreScreen(),
+      "icon": Icons.history_rounded,
+      "active_icon": Icons.manage_history,
+      "page": const HistoriqueReservationsScreen(),
     },
     {
-      "icon": Icons.favorite_border,
-      "active_icon": Icons.favorite_outlined,
-      "page": HomeScreen(),
-    },
-    {
-      "icon": Icons.forum_outlined,
-      "active_icon": Icons.forum_rounded,
+      "icon": Icons.book_outlined,
+      "active_icon": Icons.book,
       "page": HomeScreen(),
     },
     {

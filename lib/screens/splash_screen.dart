@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:realestatebf/root/root.dart';
-import 'package:realestatebf/screens/home/home_screen.dart';
+import 'package:realestatebf/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../theme/color.dart';
-import 'custom_image.dart';
+
+import '../../theme/color.dart';
+import '../custom_image.dart';
 
 class BrokerItem extends StatelessWidget {
   const BrokerItem({Key? key, required this.data}) : super(key: key);

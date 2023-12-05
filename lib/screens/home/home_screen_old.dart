@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 
 import '../../theme/color.dart';
 import '../../utils/data.dart';
-import '../../widgets/category_item.dart';
+import '../../widgets/old_widgets/category_item.dart';
 import '../../widgets/custom_image.dart';
-import '../../widgets/custom_textbox.dart';
-import '../../widgets/icon_box.dart';
-import '../../widgets/property_item.dart';
-import '../../widgets/recent_item.dart';
-import '../../widgets/recommend_item.dart';
+import '../../widgets/old_widgets/custom_textbox.dart';
+import '../../widgets/old_widgets/icon_box.dart';
+import '../../widgets/old_widgets/property_item.dart';
+import '../../widgets/old_widgets/recent_item.dart';
+import '../../widgets/old_widgets/recommend_item.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreenOld extends StatefulWidget {
+  const HomeScreenOld({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenOld> createState() => _HomeScreenOldState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenOldState extends State<HomeScreenOld> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Bonjour!",
+                  "Bonjour,",
                   style: TextStyle(
                     color: AppColor.darker,
                     fontSize: 14,
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Text(
-                  "Que recerchez-vous ?",
+                  "Trouvez une maison",
                   style: TextStyle(
                     color: Colors.black87,
                     fontSize: 17,
@@ -124,6 +124,29 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   "Recommendé",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  "Tout voir",
+                  style: TextStyle(fontSize: 14, color: AppColor.darker),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          _buildRecommended(),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Près de chez vous",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 Text(

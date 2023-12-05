@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../theme/color.dart';
 import '../utils/data.dart';
-import '../widgets/broker_item.dart';
-import '../widgets/company_item.dart';
-import '../widgets/custom_textbox.dart';
-import '../widgets/icon_box.dart';
-import '../widgets/recommend_item.dart';
+import '../widgets/old_widgets/icon_box.dart';
+import '../widgets/old_widgets/broker_item.dart';
+import '../widgets/old_widgets/company_item.dart';
+import '../widgets/old_widgets/custom_textbox.dart';
+import '../widgets/old_widgets/recommend_item.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
