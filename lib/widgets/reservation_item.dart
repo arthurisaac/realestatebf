@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:realestatebf/widgets/details_reservation_screen.dart';
+import 'package:realestatebf/screens/details_reservation_screen.dart';
 
 import '../models/property.dart';
 import '../models/reservation.dart';
@@ -32,7 +32,15 @@ class ReservationItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(15)),
-        child: Column(
+        child: property == null ? Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15)
+          ),
+          child: const Center(
+            child: Text("La publication n'existe plus"),
+          ),
+        ) : Column(
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -40,7 +48,7 @@ class ReservationItem extends StatelessWidget {
                 topRight: Radius.circular(15),
               ),
               child: Image.network(
-                "$mediaUrl${property!.imagePrincipale}",
+                "$mediaUrl${property.imagePrincipale}",
                 height: 100,
                 width: double.infinity,
                 fit: BoxFit.cover,

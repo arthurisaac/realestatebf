@@ -8,8 +8,8 @@ import 'package:realestatebf/root/root.dart';
 import 'package:realestatebf/utils/ui_utils.dart';
 
 import '../models/property.dart';
+import '../utils/api_utils.dart';
 import '../utils/constants.dart';
-import '../widgets/property_images_item.dart';
 
 class BuyNowScreen extends StatefulWidget {
   final Property property;
@@ -181,8 +181,8 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                 decoration: BoxDecoration(
                     color: Colors.grey.shade100, borderRadius: BorderRadius.circular(10)),
                 child: Image.asset(
-                  "images/orange_money.png",
-                  width: 50,
+                  "assets/images/orange_money.png",
+                  width: 75,
                 ),
               ),
             )
@@ -215,13 +215,9 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                       keyboardType: TextInputType.phone,
                       showCursor: false,
                       readOnly: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Téléphone",
                         hintText: "Numéro de téléphone",
-                        errorText: null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -237,13 +233,9 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
                       keyboardType: TextInputType.number,
                       showCursor: false,
                       readOnly: false,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "OTP",
                         hintText: "Code otp",
-                        errorText: null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -301,7 +293,6 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
     UiUtils.modalLoading(context, "Paiement en cours...");
 
     final body = {
-      //userKey: context.read<AuthCubit>().getId().toString(),
       "property": widget.property.id.toString(),
       "date_debut": DateFormat('yyyy-MM-dd hh:mm').format(widget.startDate),
       "date_fin": DateFormat('yyyy-MM-dd hh:mm').format(widget.endDate),
@@ -311,7 +302,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
       "amount": widget.total.toString()
     };
 
-    final response = await post(Uri.parse(reservationUrl), headers: {}, body: body);
+    final response = await post(Uri.parse(reservationUrl), headers: ApiUtils.getHeaders(), body: body);
 
     final responseJson = jsonDecode(response.body);
     //print(response.body);

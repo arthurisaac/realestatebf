@@ -5,10 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:realestatebf/models/property.dart';
 import 'package:realestatebf/models/reservation.dart';
+import 'package:realestatebf/screens/details_property_screen.dart';
 import 'package:realestatebf/theme/color.dart';
 
 import '../utils/constants.dart';
-import 'old_widgets/icon_box.dart';
+import '../widgets/old_widgets/icon_box.dart';
 
 class DetailsReservationSceren extends StatefulWidget {
   final Reservation reservation;
@@ -36,7 +37,9 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("${property?.nom}"),
+      ),
       body: _buildBody(),
     );
   }
@@ -44,13 +47,18 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
   _buildBody() {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _space,
           _buildPictures(),
           _space,
           _buildMapLocation(),
           _space,
+          _divider,
+          _buildProppertyInfo(),
+          _divider,
           _buildAuthor(),
+          _divider,
           _space,
           _buildReservationInfo(),
           _space,
@@ -60,6 +68,10 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
   }
 
   final Widget _space = const SizedBox(height: 15);
+  final Widget _divider = const Padding(
+    padding: EdgeInsets.all(15.0),
+    child: Divider(thickness: 0.1),
+  );
 
   Widget _buildPictures() {
     List<Widget> lists = List.generate(
@@ -131,6 +143,45 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
     }
   }
 
+  Widget _buildProppertyInfo() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${property!.nom}",
+                  style:
+                      Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  "${property!.quartier}, ${property!.ville}, ${property!.pays}",
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.black45),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailsPropertyScreen(property: property!)));
+            },
+            child: const Icon(
+              Icons.open_in_new,
+              size: 30,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAuthor() {
     if (property!.user != null) {
       // DateTime dateDebut = format.parse(property!.user!.createdAt ?? "2023-12-01 12:00:00");
@@ -153,7 +204,7 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
                           .titleLarge!
                           .copyWith(fontWeight: FontWeight.w600),
                     ),
-                    Text("Contact ${property!.user!.email}"),
+                    Text("Contact : ${property!.user!.phone}"),
                   ],
                 ),
                 IconBox(

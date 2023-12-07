@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
-import 'package:realestatebf/models/property.dart';
 import 'package:realestatebf/models/reservation.dart';
+import 'package:realestatebf/screens/login_screen.dart';
+import 'package:realestatebf/widgets/no_logged.dart';
 import 'package:realestatebf/widgets/reservation_item.dart';
 
 import '../theme/color.dart';
+import '../utils/api_utils.dart';
 import '../utils/constants.dart';
 import '../utils/ui_utils.dart';
 
@@ -20,41 +22,23 @@ class HistoriqueReservationsScreen extends StatefulWidget {
 
 class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScreen> {
   late final Future myFuture = getReservations();
+  String? token = Hive.box(hive).get("token", defaultValue: null);
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          backgroundColor: AppColor.appBgColor,
-          pinned: true,
-          snap: true,
-          floating: true,
-          automaticallyImplyLeading: false,
-          title: _buildHeader(),
-        ),
-        SliverToBoxAdapter(child: _buildBody())
-      ],
-    );
+    return token == null
+        ? const NoLogged()
+        : Scaffold(
+            appBar: AppBar(
+              title: _buildHeader(),
+            ),
+            body: _reservationList(),
+          );
   }
 
   _buildHeader() {
     return const Row(
       children: [Text("Mes réservations")],
-    );
-  }
-
-  _buildBody() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          _reservationList(),
-        ],
-      ),
     );
   }
 
@@ -72,6 +56,41 @@ class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScr
 
             if (snapshot.hasData) {
               if (snapshot.data != null) {
+                if (snapshot.data!.length > 0) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 15),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            Reservation reservation = snapshot.data![index];
+
+                            return ReservationItem(reservation: reservation);
+                          }),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: const [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.history_outlined,
+                              size: 100,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text("Vous n'avez aucune réservation"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
@@ -94,10 +113,10 @@ class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScr
 
   Future<List<Reservation>?> getReservations() async {
     try {
-      final body = {
-        //fcmIdKey: fcmToken
-      };
-      final response = await get(Uri.parse(reservationUrl));
+      final response = await get(
+        Uri.parse(reservationUrl),
+        headers: ApiUtils.getHeaders(),
+      );
 
       final responseJson = jsonDecode(response.body);
 

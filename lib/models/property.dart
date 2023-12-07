@@ -27,6 +27,7 @@ class Property {
   String? typePrix;
   int? vue;
   int? partage;
+  int? favorite;
   String? createdAt;
   String? updatedAt;
   List<Pictures>? pictures;
@@ -56,6 +57,7 @@ class Property {
         this.typePrix,
         this.vue,
         this.partage,
+        this.favorite,
         this.createdAt,
         this.updatedAt,
         this.pictures});
@@ -85,6 +87,7 @@ class Property {
     typePrix = json['type_prix'];
     vue = json['vue'];
     partage = json['partage'];
+    favorite = json['favorite'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['pictures'] != null) {
@@ -123,6 +126,7 @@ class Property {
     data['type_prix'] = typePrix;
     data['vue'] = vue;
     data['partage'] = partage;
+    data['favorite'] = favorite;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (pictures != null) {

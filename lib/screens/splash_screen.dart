@@ -10,13 +10,20 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  )..repeat(reverse: false);
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.fastOutSlowIn,
+  );
+
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const RootApp())
-      );
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RootApp()));
     });
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -27,9 +34,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Icon(Icons.home, size: 150,),
+        child: ScaleTransition(
+          scale: _animation,
+          child: Image.asset(
+            "assets/images/logo.png",
+            height: 150,
+          ),
+        ),
       ),
     );
   }

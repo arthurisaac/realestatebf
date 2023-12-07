@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:realestatebf/screens/explore_screen.dart';
+import 'package:realestatebf/screens/favorite_screen.dart';
 import 'package:realestatebf/screens/historiques_reservations_screen.dart';
 import 'package:realestatebf/screens/home_screen.dart';
+import 'package:realestatebf/screens/settings_screen.dart';
 
 import '../theme/color.dart';
 import '../widgets/bottombar_item.dart';
@@ -27,25 +28,28 @@ class _RootAppState extends State<RootApp> {
       "page": const HistoriqueReservationsScreen(),
     },
     {
-      "icon": Icons.book_outlined,
-      "active_icon": Icons.book,
-      "page": HomeScreen(),
+      "icon": Icons.bookmark_border_rounded,
+      "active_icon": Icons.bookmark,
+      "page": const FavoriteScreen(),
     },
     {
       "icon": Icons.settings_outlined,
       "active_icon": Icons.settings_rounded,
-      "page": HomeScreen(),
+      "page": const SettingsScreen(),
     },
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.appBgColor,
-      body: _buildPage(),
-      floatingActionButton: _buildBottomBar(),
-      floatingActionButtonLocation:
-      FloatingActionButtonLocation.miniCenterDocked,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: AppColor.appBgColor,
+        body: _buildPage(),
+        floatingActionButton: _buildBottomBar(),
+        floatingActionButtonLocation:
+        FloatingActionButtonLocation.miniCenterDocked,
+      ),
     );
   }
 

@@ -1,12 +1,14 @@
-//const String serverUrl = 'http://192.168.1.198:8000/';
 import 'package:intl/intl.dart';
 
-const String serverUrl = 'http://192.168.11.102:8000/';
+const String serverUrl = 'https://residant.fasobizness.com/';
+//const String serverUrl = 'http://192.168.11.102:8000/';
 //const String serverUrl = 'http://localhost:8000/';
 const String baseUrl = '${serverUrl}api/';
 const String mediaUrl = '${serverUrl}storage/';
 const String jwtKey = "";
 const String jwtSharedSecret= "SECUREKEY";
+
+const hive = "auth";
 
 //api endpoints
 // espace entre les widgets
@@ -23,6 +25,14 @@ const String errorOccured = "Une erreur s'est produite";
 
 //api endpoints
 const String propertiesUrl = "${baseUrl}properties";
+const String searchPropertiesUrl = "${baseUrl}search-properties";
 const String reservationUrl = "${baseUrl}reservations";
+const String favoriteUrl = "${baseUrl}favorites";
+const String unavailableDatesUrl = "${baseUrl}reservations-indisponibles";
+const String loginUrl = "${baseUrl}login";
+const String updatePasswordUrl = "${baseUrl}change-password";
+const String registerUrl = "${baseUrl}register";
+const String meUrl = "${baseUrl}me";
+const String updateUserUrl = "${baseUrl}me/update";
 
 final numberFormat = NumberFormat("##,##0", "fr_FR");

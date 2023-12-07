@@ -5,7 +5,7 @@ import 'package:realestatebf/models/property.dart';
 import 'package:realestatebf/screens/reservation_screen.dart';
 import 'package:realestatebf/utils/constants.dart';
 import 'package:realestatebf/widgets/custom_details_indicator_item.dart';
-import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 
 import '../theme/color.dart';
@@ -13,16 +13,16 @@ import '../utils/trapezium__left_clipper.dart';
 import '../widgets/old_widgets/icon_box.dart';
 import '../widgets/property_images_item.dart';
 
-class DetailsProperty extends StatefulWidget {
+class DetailsPropertyScreen extends StatefulWidget {
   final Property property;
 
-  const DetailsProperty({Key? key, required this.property}) : super(key: key);
+  const DetailsPropertyScreen({Key? key, required this.property}) : super(key: key);
 
   @override
-  State<DetailsProperty> createState() => _DetailsPropertyState();
+  State<DetailsPropertyScreen> createState() => _DetailsPropertyScreenState();
 }
 
-class _DetailsPropertyState extends State<DetailsProperty> {
+class _DetailsPropertyScreenState extends State<DetailsPropertyScreen> {
   ScrollController _scrollController = ScrollController();
   double _titleOpacity = 0.0;
   int _index = 0;
@@ -52,9 +52,9 @@ class _DetailsPropertyState extends State<DetailsProperty> {
         controller: _scrollController,
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: AppColor.appBgColor,
+            //backgroundColor: AppColor.appBgColor,
             pinned: true,
-            expandedHeight: 430,
+            expandedHeight: 410,
             snap: false,
             floating: false,
             flexibleSpace: FlexibleSpaceBar(
@@ -106,15 +106,15 @@ class _DetailsPropertyState extends State<DetailsProperty> {
         Align(
           alignment: AlignmentDirectional.bottomCenter,
           child: Container(
-            margin: const EdgeInsets.only(bottom: 50),
-            child: CarouselIndicator(
+            margin: const EdgeInsets.only(bottom: 80),
+            child: widget.property.pictures!.isNotEmpty ? CarouselIndicator(
               width: 8,
               height: 8,
               color: Colors.black,
               //activeColor: Theme.of(context).primaryColor,
               count: widget.property.pictures!.length,
               index: _index,
-            ),
+            ) : Container(),
           ),
         ),
         Positioned(
@@ -131,10 +131,6 @@ class _DetailsPropertyState extends State<DetailsProperty> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 15,
-          ),
-          //_buildPictures(),
           _buildPropertyName(),
           _space,
           _buildIndicators(),
@@ -236,7 +232,7 @@ class _DetailsPropertyState extends State<DetailsProperty> {
 
   Widget _buildPropertyName() {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -323,19 +319,29 @@ class _DetailsPropertyState extends State<DetailsProperty> {
   }
 
   Widget _buildNavigation() {
-    return IconBox(
-      bgColor: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(1.0),
-        child: Transform.rotate(
-          angle: 20 * math.pi / 180,
-          child: Icon(
-            Icons.navigation_sharp,
-            color: Theme.of(context).primaryColor,
-            size: 23,
+    return GestureDetector(
+      onTap: () {
+        if (widget.property.latitude != null || widget.property.longitude != null) {
+          String uri = "https://www.google.com/maps/dir//${widget.property.latitude},${widget.property.longitude}";
+          _launchURL(Uri.parse(uri));
+        }
+      },
+      child: IconBox(
+        bgColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(1.0),
+          child: Transform.rotate(
+            angle: 20 * math.pi / 180,
+            child: Icon(
+              Icons.navigation_sharp,
+              color: Theme.of(context).primaryColor,
+              size: 23,
+            ),
           ),
         ),
       ),
     );
   }
+
+  void _launchURL(url) async => await launchUrl(url);
 }

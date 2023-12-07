@@ -1,36 +1,46 @@
 class User {
   int? id;
   String? name;
+  String? nom;
+  String? prenom;
   String? email;
-  String? emailVerifiedAt;
+  String? phone;
+  //String? emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
 
   User(
       {this.id,
-        this.name,
+        this.nom,
+        this.prenom,
         this.email,
-        this.emailVerifiedAt,
+        this.phone,
+        //this.emailVerifiedAt,
         this.createdAt,
         this.updatedAt});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    nom = json['nom'];
+    prenom = json['prenom'];
     email = json['email'];
-    emailVerifiedAt = json['email_verified_at'];
+    phone = json['phone'];
+    //emailVerifiedAt = json['email_verified_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['nom'] = nom;
+    data['prenom'] = prenom;
+    data['email'] = email;
+    //data['email_verified_at'] = emailVerifiedAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

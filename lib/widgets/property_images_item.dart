@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:realestatebf/models/pictures.dart';
 import 'package:realestatebf/utils/constants.dart';
 
-import 'custom_image.dart';
 
 class PropertyPicturesItem extends StatefulWidget {
   final Pictures picture;
@@ -18,6 +17,7 @@ class _PropertyPicturesItemState extends State<PropertyPicturesItem> {
     return Image.network(
       '$mediaUrl${widget.picture.image}',
       fit: BoxFit.cover,
+      width: double.infinity,
     );
   }
 }
