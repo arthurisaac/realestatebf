@@ -155,6 +155,7 @@ class UiUtils {
   static void msgConfirmationDialog(
       BuildContext context, String title, String message, onMessagePressed, onPressed) {
     AlertDialog alert = AlertDialog(
+      icon: const Icon(Icons.question_mark_rounded, size: 30,),
       title: Text(title),
       content: Text(message),
       actions: [

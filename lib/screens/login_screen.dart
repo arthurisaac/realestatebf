@@ -112,7 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       child: Container(
-                        width: double.infinity,
+                        //width: double.infinity,
+                        width: 200,
                         padding: const EdgeInsets.all(14),
                         child: const Center(
                           child: Text(

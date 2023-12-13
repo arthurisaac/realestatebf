@@ -33,7 +33,7 @@ class NoLogged extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const LoginScreen()));
             },
             child: Container(
-              width: double.infinity,
+              width: 200,
               padding: const EdgeInsets.all(14),
               child: const Center(
                 child: Text(

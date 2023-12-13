@@ -107,14 +107,16 @@ class _DetailsPropertyScreenState extends State<DetailsPropertyScreen> {
           alignment: AlignmentDirectional.bottomCenter,
           child: Container(
             margin: const EdgeInsets.only(bottom: 80),
-            child: widget.property.pictures!.isNotEmpty ? CarouselIndicator(
-              width: 8,
-              height: 8,
-              color: Colors.black,
-              //activeColor: Theme.of(context).primaryColor,
-              count: widget.property.pictures!.length,
-              index: _index,
-            ) : Container(),
+            child: widget.property.pictures!.isNotEmpty
+                ? CarouselIndicator(
+                    width: 8,
+                    height: 8,
+                    color: Colors.black,
+                    //activeColor: Theme.of(context).primaryColor,
+                    count: widget.property.pictures!.length,
+                    index: _index,
+                  )
+                : Container(),
           ),
         ),
         Positioned(
@@ -156,31 +158,23 @@ class _DetailsPropertyScreenState extends State<DetailsPropertyScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 6 / 15),
-                    child: Center(
-                        child: Text(
+                  Center(
+                    child: Text(
                       "${numberFormat.format(widget.property.prix)}$priceSymbole",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                       textAlign: TextAlign.center,
-                    )),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 6 / 15),
-                    child: Center(
-                      child: Text(
-                        "(${widget.property.typePrix})",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.white),
-                      ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 2,
-                  )
+                  Center(
+                    child: Text(
+                      "(${widget.property.typePrix})",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -195,7 +189,10 @@ class _DetailsPropertyScreenState extends State<DetailsPropertyScreen> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReservationScreen(property: widget.property,)));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ReservationScreen(
+                          property: widget.property,
+                        )));
               },
               child: Container(
                 color: Colors.white,
@@ -322,7 +319,8 @@ class _DetailsPropertyScreenState extends State<DetailsPropertyScreen> {
     return GestureDetector(
       onTap: () {
         if (widget.property.latitude != null || widget.property.longitude != null) {
-          String uri = "https://www.google.com/maps/dir//${widget.property.latitude},${widget.property.longitude}";
+          String uri =
+              "https://www.google.com/maps/dir//${widget.property.latitude},${widget.property.longitude}";
           _launchURL(Uri.parse(uri));
         }
       },
@@ -335,7 +333,7 @@ class _DetailsPropertyScreenState extends State<DetailsPropertyScreen> {
             child: Icon(
               Icons.navigation_sharp,
               color: Theme.of(context).primaryColor,
-              size: 23,
+              size: 32,
             ),
           ),
         ),

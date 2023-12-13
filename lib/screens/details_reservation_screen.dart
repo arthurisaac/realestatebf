@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:realestatebf/models/property.dart';
 import 'package:realestatebf/models/reservation.dart';
 import 'package:realestatebf/screens/details_property_screen.dart';
-import 'package:realestatebf/theme/color.dart';
+import 'package:realestatebf/widgets/custom_network_image.dart';
 
 import '../utils/constants.dart';
 import '../widgets/old_widgets/icon_box.dart';
@@ -36,7 +36,6 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.appBgColor,
       appBar: AppBar(
         title: Text("${property?.nom}"),
       ),
@@ -70,7 +69,7 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
   final Widget _space = const SizedBox(height: 15);
   final Widget _divider = const Padding(
     padding: EdgeInsets.all(15.0),
-    child: Divider(thickness: 0.1),
+    child: Divider(),
   );
 
   Widget _buildPictures() {
@@ -83,10 +82,7 @@ class _DetailsReservationScerenState extends State<DetailsReservationSceren> {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: Image.network(
-            '$mediaUrl${property!.pictures![index].image}',
-            fit: BoxFit.cover,
-          ),
+          child: CustomNetworkImage(image: '$mediaUrl${property!.pictures![index].image}',)
         ),
       ),
     );

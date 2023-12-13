@@ -40,56 +40,63 @@ class ReservationItem extends StatelessWidget {
           child: const Center(
             child: Text("La publication n'existe plus"),
           ),
-        ) : Column(
+        ) : Row(
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
               ),
               child: Image.network(
                 "$mediaUrl${property.imagePrincipale}",
                 height: 100,
-                width: double.infinity,
+                width: 100,
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
+            Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    "${property.nom}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "${property.quartier}, ${property.ville}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(color: Colors.black45),
-                  ),
-                  const Text("Réservation"),
-                  Row(
-                    children: [
-                      Text(
-                        formatDateDebut,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
-                      ),
-                      const Text(" - "),
-                      Text(
-                        formatDateFin,
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${property.nom}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "${property.quartier}, ${property.ville}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(color: Colors.black45),
+                        ),
+                        const Text("Réservation"),
+                        Row(
+                          children: [
+                            Text(
+                              formatDateDebut,
+                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                            const Text(" - "),
+                            Text(
+                              formatDateFin,
+                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

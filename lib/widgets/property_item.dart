@@ -32,44 +32,45 @@ class _PropertyItemState extends State<PropertyItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(
-        width: double.infinity,
-        height: 260,
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                image: DecorationImage(
-                  image: NetworkImage('$mediaUrl${widget.property.imagePrincipale}'),
-                  fit: BoxFit.cover,
+      child: Card(
+        child : Container(
+          width: double.infinity,
+          height: 260,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                  image: DecorationImage(
+                    image: NetworkImage('$mediaUrl${widget.property.imagePrincipale}',),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              right: 20,
-              top: 15,
-              child: _buildFavorite(),
-            ),
-            Positioned(
-              right: 20,
-              top: 130,
-              child: _buildNavigation(),
-            ),
-            Positioned(
-              left: 15,
-              top: 160,
-              child: _buildInfo(),
-            ),
-          ],
+              Positioned(
+                right: 20,
+                top: 15,
+                child: _buildFavorite(),
+              ),
+              Positioned(
+                right: 20,
+                top: 130,
+                child: _buildNavigation(),
+              ),
+              Positioned(
+                left: 15,
+                top: 160,
+                child: _buildInfo(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -122,6 +123,7 @@ class _PropertyItemState extends State<PropertyItem> {
   Widget _buildInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           "${widget.property.nom}",
@@ -169,7 +171,7 @@ class _PropertyItemState extends State<PropertyItem> {
       children: [
         Image.asset(
           image,
-          height: 30,
+          height: 18,
         ),
         const SizedBox(
           width: 5,

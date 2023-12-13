@@ -18,6 +18,22 @@ class _PropertyPicturesItemState extends State<PropertyPicturesItem> {
       '$mediaUrl${widget.picture.image}',
       fit: BoxFit.cover,
       width: double.infinity,
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes!
+                : null,
+          ),
+        );
+      },
+      errorBuilder: (BuildContext context, Object exception,
+          StackTrace? stackTrace) {
+        return const Center(child: Text('😢'));
+      },
     );
   }
 }

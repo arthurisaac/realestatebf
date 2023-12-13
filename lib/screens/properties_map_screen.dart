@@ -46,7 +46,7 @@ class _PropertiesMapScreenState extends State<PropertiesMapScreen> {
               mapController: _mapController,
               options: MapOptions(
                 center: current,
-                zoom: 14.0,
+                zoom: 12.0,
                 maxZoom: 18.0,
                 minZoom: 3.0,
               ),
@@ -149,7 +149,6 @@ class _PropertiesMapScreenState extends State<PropertiesMapScreen> {
       var jsonResponse = responseJson['data'] as List<dynamic>;
       List<Property> list = jsonResponse.map((e) => Property.fromJson(e)).toList();
 
-      print(list.length);
       for (var element in list) {
         if (element.latitude != null && element.longitude != null) {
           var marker = Marker(
@@ -169,12 +168,13 @@ class _PropertiesMapScreenState extends State<PropertiesMapScreen> {
                 );
               },
               child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8)
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(5),
+                decoration:
+                    BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                child: Center(
+                  child: Icon(Icons.king_bed_rounded, color: Theme.of(context).primaryColor),
                 ),
-                child: const Icon(Icons.home_filled, color: Colors.orangeAccent),
               ),
             ),
           );

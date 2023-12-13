@@ -73,20 +73,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 _space,
                 TextFormField(
                   controller: emailController,
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.emailAddress,
                   showCursor: true,
                   decoration: const InputDecoration(
                     hintText: "Adresse mail",
                     prefixIcon: Icon(Icons.alternate_email_outlined),
                   ),
-                  validator: (value) {
+                  /*validator: (value) {
                     if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(value!)) {
                       return 'Entrer un email valide!';
                     }
                     return null;
-                  },
+                  },*/
                 ),
                 _space,
                 TextFormField(
@@ -108,8 +108,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextFormField(
                   controller: passwordController,
                   keyboardType: TextInputType.text,
-                  showCursor: true,
-                  readOnly: false,
                   obscureText: !_passwordVisible,
                   decoration: InputDecoration(
                     //labelText: password,
@@ -146,9 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextFormField(
                   controller: passwordConfirmationController,
                   keyboardType: TextInputType.text,
-                  showCursor: false,
-                  readOnly: false,
-                  obscureText: true,
+                  obscureText: !_passwordVisible,
                   decoration: InputDecoration(
                     //labelText: password,
                     hintText: "Confirmation de mot de passe",
@@ -160,7 +156,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         });
                       },
                       icon: Icon(
-                        // Based on passwordVisible state choose the icon
                         _passwordVisible ? Icons.visibility : Icons.visibility_off,
                         color: const Color(0xFFd96e70),
                       ),

@@ -87,6 +87,18 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
           child: Image.network(
             '$mediaUrl${widget.property.pictures![index].image}',
             fit: BoxFit.cover,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -94,7 +106,7 @@ class _BuyNowScreenState extends State<BuyNowScreen> {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(bottom: 5, left: 15),
+      padding: const EdgeInsets.only(bottom: 5),
       child: Row(children: lists),
     );
   }

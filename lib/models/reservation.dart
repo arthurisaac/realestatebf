@@ -5,6 +5,7 @@ import 'property.dart';
 class Reservation {
   int? id;
   Property? property;
+  User? user;
   String? dateDebut;
   String? dateFin;
   String? method;
@@ -17,6 +18,7 @@ class Reservation {
 
   Reservation(
       {this.id,
+        this.user,
         this.property,
         this.dateDebut,
         this.dateFin,
@@ -31,8 +33,9 @@ class Reservation {
   Reservation.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     property = json['property'] != null
-        ? new Property.fromJson(json['property'])
+        ? Property.fromJson(json['property'])
         : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     dateDebut = json['date_debut'];
     dateFin = json['date_fin'];
     method = json['method'];
@@ -49,6 +52,9 @@ class Reservation {
     data['id'] = id;
     if (property != null) {
       data['property'] = property!.toJson();
+    }
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     data['date_debut'] = dateDebut;
     data['date_fin'] = dateFin;

@@ -1,44 +1,32 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:http/http.dart';
 import 'package:lottie/lottie.dart';
-import 'package:realestatebf/models/reservation.dart';
-import 'package:realestatebf/widgets/no_logged.dart';
-import 'package:realestatebf/widgets/reservation_item.dart';
 
+import '../models/reservation.dart';
 import '../utils/api_utils.dart';
 import '../utils/constants.dart';
 import '../utils/ui_utils.dart';
+import '../widgets/my_reservation_item.dart';
+import '../widgets/reservation_item.dart';
+import 'package:http/http.dart';
 
-class HistoriqueReservationsScreen extends StatefulWidget {
-  const HistoriqueReservationsScreen({Key? key}) : super(key: key);
+class MyReservationsScreen extends StatefulWidget {
+  const MyReservationsScreen({Key? key}) : super(key: key);
 
   @override
-  State<HistoriqueReservationsScreen> createState() => _HistoriqueReservationsScreenState();
+  State<MyReservationsScreen> createState() => _MyReservationsScreenState();
 }
 
-class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScreen> {
+class _MyReservationsScreenState extends State<MyReservationsScreen> {
   late final Future myFuture = getReservations();
-  String? token = Hive.box(hive).get("token", defaultValue: null);
 
   @override
   Widget build(BuildContext context) {
-    return token == null
-        ? const NoLogged()
-        : Scaffold(
-            appBar: AppBar(
-              title: _buildHeader(),
-              automaticallyImplyLeading: false,
-            ),
-            body: _reservationList(),
-          );
-  }
-
-  _buildHeader() {
-    return const Row(
-      children: [Text("Mes réservations")],
+    return Scaffold(
+      appBar: AppBar(),
+      body: _reservationList(),
     );
   }
 
@@ -63,7 +51,7 @@ class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScr
                       itemBuilder: (context, index) {
                         Reservation reservation = snapshot.data![index];
 
-                        return ReservationItem(reservation: reservation);
+                        return MyReservationItem(reservation: reservation);
                       });
                 } else {
                   return Center(
@@ -82,21 +70,13 @@ class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScr
                             const SizedBox(
                               height: 15,
                             ),
-                            const Text("Vous n'avez fait aucune réservation"),
+                            const Text("Il n'y a pas de réservation pour vous!"),
                           ],
                         ),
                       ],
                     ),
                   );
                 }
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      Reservation reservation = snapshot.data![index];
-
-                      return ReservationItem(reservation: reservation);
-                    });
               } else {
                 return const Center(child: Text("Aucune donnée"));
               }
@@ -112,7 +92,7 @@ class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScr
   Future<List<Reservation>?> getReservations() async {
     try {
       final response = await get(
-        Uri.parse(reservationUrl),
+        Uri.parse(myReservationUrl),
         headers: ApiUtils.getHeaders(),
       );
 
@@ -126,6 +106,9 @@ class _HistoriqueReservationsScreenState extends State<HistoriqueReservationsScr
     } catch (e) {
       if (mounted) {
         UiUtils.setSnackBar(errorOccured, e.toString(), context, false);
+      }
+      if (kDebugMode) {
+        print(e.toString());
       }
       //throw AlertException(errorMessageCode: e.toString());
       return [];

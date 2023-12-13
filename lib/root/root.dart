@@ -67,7 +67,7 @@ class _RootAppState extends State<RootApp> {
     return Container(
       height: 55,
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
         color: AppColor.bottomBarColor,
         borderRadius: BorderRadius.circular(20),

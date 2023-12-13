@@ -29,7 +29,7 @@ class CustomDetailsIndicator extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(image),
+            Image.asset(image, height: 34,),
             Text(
               label,
               style: Theme.of(context)

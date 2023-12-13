@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:lottie/lottie.dart';
 import 'package:realestatebf/models/property.dart';
 import 'package:realestatebf/screens/details_property_screen.dart';
 import 'package:realestatebf/screens/filter_dialog.dart';
@@ -12,9 +13,7 @@ import 'package:realestatebf/utils/constants.dart';
 import 'package:realestatebf/widgets/property_item.dart';
 
 import '../models/filter.dart';
-import '../theme/color.dart';
 import '../utils/api_utils.dart';
-import '../utils/ui_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,17 +77,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _buildBody() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 15,
-        ),
-        _buildSearch(),
-        _space(),
-        _propertyList(),
-        const SizedBox(height: 30),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        getProperties(filter: null);
+      },
+      child: Column(
+        children: [
+          _buildSearch(),
+          Expanded(child: _propertyList()),
+          //const SizedBox(height: 30),
+        ],
+      ),
     );
   }
 
@@ -146,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _propertyList() {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(15),
       child: FutureBuilder(
           future: myFuture,
           builder: (context, snapshot) {
@@ -159,39 +158,45 @@ class _HomeScreenState extends State<HomeScreen> {
             if (snapshot.hasData) {
               if (snapshot.data != null) {
                 if (snapshot.data!.length > 0) {
-                  return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        Property property = snapshot.data![index];
-                        return PropertyItem(
-                          property: property,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailsPropertyScreen(
-                                  property: property,
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 45),
+                    child: ListView.builder(
+                        // physics: const NeverScrollableScrollPhysics(),
+                        // shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Property property = snapshot.data![index];
+                          return PropertyItem(
+                            property: property,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailsPropertyScreen(
+                                    property: property,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      });
+                              );
+                            },
+                          );
+                        }),
+                  );
                 } else {
                   return Container(
                     margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .2),
                     child: ListView(
                       shrinkWrap: true,
-                      children: const [
+                      children: [
                         Column(
                           children: [
-                            Icon(
-                              Icons.bedtime_off_sharp,
-                              size: 100,
+                            Lottie.asset(
+                              'assets/json/empty.json',
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.fill,
+                              repeat: true,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Text("Pas de publication pour le moment. \nRevenez plus tard!", textAlign: TextAlign.center,),
@@ -213,12 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _space() {
-    return const SizedBox(
-      height: 20,
-    );
-  }
-
   Future<List<Property>?> getProperties({required Filter? filter}) async {
     try {
       Map<String, String> queryParams = {};
@@ -237,8 +236,6 @@ class _HomeScreenState extends State<HomeScreen> {
         headers: ApiUtils.getHeaders(),
       );
 
-      print(response.statusCode);
-
       final responseJson = jsonDecode(response.body);
 
       var jsonResponse = responseJson['data'] as List<dynamic>;
@@ -256,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _showFilterDialog() async {
-    final Filter result = await showModalBottomSheet(
+    final Filter? result = await showModalBottomSheet(
       context: context,
       builder: (context) {
         return const FilterDialog();

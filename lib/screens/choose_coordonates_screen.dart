@@ -85,8 +85,8 @@ class _ChooseCoordonatesScreenState extends State<ChooseCoordonatesScreen> {
               ? Positioned(
                   left: _textPos!.x.toDouble(),
                   top: _textPos!.y.toDouble(),
-                  width: 20,
-                  height: 20,
+                  width: 30,
+                  height: 30,
                   child: Icon(Icons.location_on_rounded, color: Theme.of(context).primaryColor,),
                 )
               : Container()

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lottie/lottie.dart';
 
 import '../models/property.dart';
 import '../theme/color.dart';
@@ -22,7 +23,7 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  late final Future myFuture = getFavorites();
+  late Future myFuture = getFavorites();
   String? token = Hive.box(hive).get("token", defaultValue: null);
 
   @override
@@ -32,22 +33,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         Scaffold(
           appBar: AppBar(
             title: _buildHeader(),
+            automaticallyImplyLeading: false,
           ),
           body: _buildBody(),
         );
-    /*CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          backgroundColor: AppColor.appBgColor,
-          pinned: true,
-          snap: true,
-          floating: true,
-          title: _buildHeader(),
-          automaticallyImplyLeading: false,
-        ),
-        SliverToBoxAdapter(child: _buildBody())
-      ],
-    );*/
   }
 
   _buildHeader() {
@@ -69,7 +58,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: FutureBuilder(
-          future: myFuture,
+          future: getFavorites(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -79,42 +68,42 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
             if (snapshot.hasData) {
               if (snapshot.data != null) {
-                if (snapshot.data!.length > 0) {
-                  return Column(
-                    children: [
-                      const SizedBox(height: 15),
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            Property property = snapshot.data![index];
-                            return PropertyItem(
-                              property: property,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsPropertyScreen(
-                                      property: property,
-                                    ),
-                                  ),
-                                );
-                              },
+                if (snapshot.data!.isNotEmpty) {
+                  return ListView.builder(
+                      //physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        Property property = snapshot.data![index];
+                        return PropertyItem(
+                          property: property,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsPropertyScreen(
+                                  property: property,
+                                ),
+                              ),
                             );
-                          }),
-                    ],
-                  );
+                          },
+                        );
+                      });
                 } else {
                   return Center(
                     child: ListView(
                       shrinkWrap: true,
-                      children: const [
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.bookmark_remove, size: 100,),
-                            SizedBox(height: 15,),
-                            Text("Vous n'avez pas de favoris"),
+                            Lottie.asset(
+                              'assets/json/no_favorite.json',
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.fill,
+                              repeat: true,
+                            ),
+                            const SizedBox(height: 15,),
+                            const Text("Vous n'avez pas de favoris"),
                           ],
                         ),
 
